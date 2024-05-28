@@ -37,6 +37,14 @@ export default function StateToDo() {
     }));
   };
 
+  const handleRemove = e => {
+    setToDo(todo.filter(item =>
+      //item.idとe.target.dataset.idが一致しないものだけ残す
+      //一致しているものは消える
+      item.id !== Number(e.target.dataset.id)
+    ));
+  };
+
   return(
     <div>
       <label>
@@ -56,7 +64,11 @@ export default function StateToDo() {
             className={item.isDone ? 'done' : ''}
           >
             {item.title}
-            <button type="button" onClick={handleDone} data-id={item.id}>済
+            <button type="button" onClick={handleDone} data-id={item.id}>
+              済
+            </button>
+            <button type="button" onClick={handleRemove} data-id={item.id}>
+              削除
             </button>
           </li>
         ))}
