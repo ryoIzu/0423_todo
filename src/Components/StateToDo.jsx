@@ -4,8 +4,23 @@ import '../Styles/StateTodo.css';
 let maxId = 0;
 
 export default function StateToDo() {
+  const [desc, setDesc] = useState(true);
   const [title, setTitle] = useState();
   const [todo, setToDo] = useState([]);
+
+  const handleSort = e => {
+    const sorted = [...todo];
+    sorted.sort((m,n) => {
+      if(desc) {
+        return n.created.getTime()-m.created.getTime();
+      } else {
+        return m.created.getTime()-n.created.getTime();
+      }
+    });
+
+    setDesc(d => !d);
+    setToDo(sorted);
+  }
 
   const handleChangeTitle = e => {
     setTitle(e.target.value);
@@ -56,6 +71,7 @@ export default function StateToDo() {
           onChange={handleChangeTitle} />
       </label>
       <button type="button" onClick={handleClick}>追加</button>
+      <button type="button" onClick={handleSort}>{desc ? '↑': '↓'}</button>
       <hr />
       <ul>
         {todo.map(item=>(
